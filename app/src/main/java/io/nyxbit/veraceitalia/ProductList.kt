@@ -37,9 +37,9 @@ class ProductList : Fragment() {
         _binding = FragmentProductListBinding.inflate(inflater, container, false)
         var isCollapsed = false
 
-        cartViewModel.subtotal.observe(viewLifecycleOwner, Observer {
+        cartViewModel.getSubtotal().observe(viewLifecycleOwner) {
             _binding.subtotal.text = "₱$it"
-        })
+        }
 
         listAdapter = ItemRecyclerAdapter(dataset, {}, { item ->
             if (item.quantity > 0) {

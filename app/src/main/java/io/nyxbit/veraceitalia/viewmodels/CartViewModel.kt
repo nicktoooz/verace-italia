@@ -7,27 +7,23 @@ import io.nyxbit.veraceitalia.models.Item
 
 class CartViewModel : ViewModel() {
     private var list = mutableListOf<Item>()
-    var subtotal = MutableLiveData<Int>().apply { value = 0 }
+    private var subtotal = MutableLiveData<Int>().apply { value = 0 }
 
     fun add(item: Item) {
         list.add(item)
         updateSubtotal()
     }
-
     fun remove(item: Item) {
         list.remove(item)
         updateSubtotal()
     }
-
     fun clear() {
         list.clear()
         subtotal.value = 0
     }
-
     fun getList(): MutableList<Item> {
         return list
     }
-
     fun replace(oldItem: Item, newItem: Item) {
         val index = list.indexOf(oldItem)
         if (index != -1) {
@@ -35,14 +31,14 @@ class CartViewModel : ViewModel() {
         }
         updateSubtotal()
     }
-
     fun exists(item: Item): Boolean {
         return list.contains(item)
     }
-
+    fun getSubtotal(): MutableLiveData<Int> {
+        return subtotal
+    }
     private fun updateSubtotal() {
-        val total = list.sumOf { it.subtotal }
-        subtotal.value = total
+        subtotal.value = list.sumOf { it.subtotal }
     }
 
 }

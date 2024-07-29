@@ -16,11 +16,9 @@ class ItemRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(RecyclerItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
-
     override fun getItemCount(): Int {
         return dataset.size
     }
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(dataset[position], onDataClick, onQuantityChange)
     }

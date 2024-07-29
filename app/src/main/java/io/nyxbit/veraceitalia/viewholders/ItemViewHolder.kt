@@ -15,6 +15,7 @@ class ItemViewHolder(private var _binding: RecyclerItemBinding) : RecyclerView.V
         _binding.tvPrice.text = "₱${data.price}"
         _binding.counter.text = data.quantity.toString()
         _binding.imageView.setImageResource(data.image)
+
         _binding.increment.setOnClickListener {
             if (data.quantity < 99) {
                 data.quantity++
