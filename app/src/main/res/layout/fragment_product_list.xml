@@ -50,6 +50,8 @@
             android:layout_weight="1"
             android:textColor="@color/background"
             android:fontFamily="@font/cinzel_regular"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:text="999.00"/>
 
         <Button
@@ -60,11 +62,9 @@
             />
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/summary"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-    </androidx.cardview.widget.CardView>
+    <include
+        android:id="@+id/cart_layout"
+        layout="@layout/cart"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

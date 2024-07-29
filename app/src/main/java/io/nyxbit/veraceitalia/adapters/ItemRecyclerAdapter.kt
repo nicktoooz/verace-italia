@@ -7,10 +7,12 @@ import io.nyxbit.veraceitalia.databinding.RecyclerItemBinding
 import io.nyxbit.veraceitalia.models.Item
 import io.nyxbit.veraceitalia.viewholders.ItemViewHolder
 
-class ProductsAdapter (
+class ItemRecyclerAdapter(
     private val dataset: MutableList<Item> = mutableListOf(),
-    private val onDataClick : (data:Item)-> Unit,
-) : RecyclerView.Adapter<ItemViewHolder>() {
+    private val onDataClick: (data: Item) -> Unit,
+    private val onQuantityChange: (data: Item) -> Unit,
+
+    ) : RecyclerView.Adapter<ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(RecyclerItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
@@ -20,6 +22,6 @@ class ProductsAdapter (
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(dataset[position], onDataClick)
+        holder.bind(dataset[position], onDataClick, onQuantityChange)
     }
 }
