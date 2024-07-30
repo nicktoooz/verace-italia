@@ -14,7 +14,6 @@ class ItemViewHolder(private var _binding: RecyclerItemBinding) : RecyclerView.V
         _binding.counter.text = data.quantity.toString()
         _binding.imageView.setImageResource(data.image)
 
-        // Set the background based on the quantity
         _binding.background.setBackgroundResource(data.getBackgroundResource())
 
         _binding.increment.setOnClickListener {
@@ -22,7 +21,6 @@ class ItemViewHolder(private var _binding: RecyclerItemBinding) : RecyclerView.V
                 data.quantity++
                 data.subtotal = data.quantity * currentPrice
                 _binding.counter.text = data.quantity.toString()
-                // Update the background again after changing the quantity
                 _binding.background.setBackgroundResource(data.getBackgroundResource())
             }
             onQuantityChange.invoke(data)
@@ -33,7 +31,6 @@ class ItemViewHolder(private var _binding: RecyclerItemBinding) : RecyclerView.V
                 data.quantity--
                 data.subtotal = data.quantity * currentPrice
                 _binding.counter.text = data.quantity.toString()
-                // Update the background again after changing the quantity
                 _binding.background.setBackgroundResource(data.getBackgroundResource())
             }
             onQuantityChange.invoke(data)

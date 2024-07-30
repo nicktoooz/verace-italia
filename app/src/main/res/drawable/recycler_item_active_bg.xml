@@ -5,10 +5,10 @@
     android:viewportHeight="600">
   <path
       android:pathData="M0,0h900v600h-900z"
-      android:fillColor="#14EB5E28"/>
+      android:fillColor="#1449EB28"/>
   <path
       android:pathData="M0,481L30,479.5C60,478 120,475 180,467.7C240,460.3 300,448.7 360,457.3C420,466 480,495 540,508.5C600,522 660,520 720,505.7C780,491.3 840,464.7 870,451.3L900,438L900,601L870,601C840,601 780,601 720,601C660,601 600,601 540,601C480,601 420,601 360,601C300,601 240,601 180,601C120,601 60,601 30,601L0,601Z"
       android:strokeLineJoin="miter"
-      android:fillColor="#27EB5E28"
+      android:fillColor="#2735EB28"
       android:strokeLineCap="round"/>
 </vector>
