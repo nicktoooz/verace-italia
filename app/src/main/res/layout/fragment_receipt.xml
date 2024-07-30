@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Receipt">
+
+    <TextView
+        android:id="@+id/receipt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/cinzel_regular"
+        android:text="Receipt"
+        android:textColor="@color/primary_text"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cinzel_regular"
+        android:text="@string/app_name"
+        android:textColor="@color/primary_text"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/receipt"
+        app:layout_constraintStart_toStartOf="@+id/receipt"
+        app:layout_constraintTop_toBottomOf="@+id/receipt" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cinzel_regular"
+        android:text="La Dolce Vita, 123 Bella Vista Ave, Covent Garden, London, WC2E 9DD, UK"
+        android:textAlignment="center"
+        android:textColor="@color/primary_text"
+        android:textSize="8sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="50dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/divider"
+        app:layout_constraintEnd_toEndOf="@+id/receipt"
+        app:layout_constraintStart_toStartOf="@+id/receipt"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/divider">
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/cinzel_regular"
+            android:text="Qty"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/cinzel_regular"
+            android:text="Product"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/cinzel_regular"
+            android:text="Amount"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold" />
+    </GridLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/receipt_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        tools:layout_editor_absoluteX="20dp"
+        tools:listitem="@layout/recycler_receipt_item" />
+
+    <LinearLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:fontFamily="@font/cinzel_regular"
+                android:text="Subtotal: "
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:fontFamily="@font/cinzel_regular"
+                android:text="Tax: "
+                android:textColor="@color/primary_text" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:fontFamily="@font/cinzel_regular"
+                android:text="Total"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/subtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/cinzel_regular"
+                android:text="999"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/cinzel_regular"
+                android:text="999"
+                android:textColor="@color/primary_text" />
+            <TextView
+                android:id="@+id/grand_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/cinzel_regular"
+                android:text="999"
+                android:textColor="@color/primary_text" />
+        </GridLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

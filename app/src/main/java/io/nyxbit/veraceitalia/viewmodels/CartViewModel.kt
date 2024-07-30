@@ -1,44 +1,60 @@
 package io.nyxbit.veraceitalia.viewmodels
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.nyxbit.veraceitalia.models.Item
-
 class CartViewModel : ViewModel() {
-    private var list = mutableListOf<Item>()
-    private var subtotal = MutableLiveData<Int>().apply { value = 0 }
+    private val _list = MutableLiveData<MutableList<Item>>().apply { value = mutableListOf() }
+    val list: LiveData<MutableList<Item>> get() = _list
+
+    private val _subtotal = MutableLiveData<Int>().apply { value = 0 }
+    val subtotal: LiveData<Int> get() = _subtotal
 
     fun add(item: Item) {
-        list.add(item)
+        val items = _list.value ?: mutableListOf()
+        val index = items.indexOfFirst { it.name == item.name }
+        if (index >= 0) {
+            val existingItem = items[index]
+            existingItem.quantity += item.quantity
+        } else {
+            items.add(item)
+        }
+        _list.value = items
         updateSubtotal()
     }
+
     fun remove(item: Item) {
-        list.remove(item)
-        updateSubtotal()
+        val items = _list.value ?: mutableListOf()
+        val index = items.indexOfFirst { it.name == item.name }
+        if (index >= 0) {
+            items[index].quantity = 0 // Reset quantity to 0 before removing
+            items.removeAt(index)
+            _list.value = items
+            updateSubtotal()
+        }
     }
+
     fun clear() {
-        list.clear()
-        subtotal.value = 0
+        _list.value = mutableListOf()
+        _subtotal.value = 0
     }
-    fun getList(): MutableList<Item> {
-        return list
-    }
+
     fun replace(oldItem: Item, newItem: Item) {
-        val index = list.indexOf(oldItem)
-        if (index != -1) {
-            list[index] = newItem
+        val items = _list.value ?: mutableListOf()
+        val index = items.indexOfFirst { it.name == oldItem.name }
+        if (index >= 0) {
+            items[index] = newItem
+            _list.value = items
         }
         updateSubtotal()
     }
+
     fun exists(item: Item): Boolean {
-        return list.contains(item)
-    }
-    fun getSubtotal(): MutableLiveData<Int> {
-        return subtotal
-    }
-    private fun updateSubtotal() {
-        subtotal.value = list.sumOf { it.subtotal }
+        return _list.value?.any { it.name == item.name } ?: false
     }
 
+    private fun updateSubtotal() {
+        _subtotal.value = _list.value?.sumOf { it.subtotal } ?: 0
+    }
 }

@@ -8,7 +8,7 @@ import io.nyxbit.veraceitalia.models.Item
 import io.nyxbit.veraceitalia.viewholders.ItemViewHolder
 
 class ItemRecyclerAdapter(
-    private val dataset: MutableList<Item> = mutableListOf(),
+    val dataset: MutableList<Item> = mutableListOf(),
     private val onDataClick: (data: Item) -> Unit,
     private val onQuantityChange: (data: Item) -> Unit,
 

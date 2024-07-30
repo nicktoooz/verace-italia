@@ -18,5 +18,14 @@
         android:id="@+id/productList"
         android:name="io.nyxbit.veraceitalia.ProductList"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list" />
+        tools:layout="@layout/fragment_product_list" >
+        <action
+            android:id="@+id/action_productList_to_receipt2"
+            app:destination="@id/receipt2" />
+    </fragment>
+    <fragment
+        android:id="@+id/receipt2"
+        android:name="io.nyxbit.veraceitalia.Receipt"
+        android:label="fragment_receipt"
+        tools:layout="@layout/fragment_receipt" />
 </navigation>

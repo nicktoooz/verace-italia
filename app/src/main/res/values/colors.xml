@@ -6,4 +6,5 @@
     <color name="primary_text">#252422</color>
     <color name="primary_button">#252422</color>
     <color name="accent">#EB5E28</color>
+    <color name="card_background">#E2E2E2</color>
 </resources>

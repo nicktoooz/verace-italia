@@ -7,16 +7,19 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="0dp"
+        android:clickable="true"
         app:cardElevation="0dp"
-        android:layout_margin="5dp">
+        >
 
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnCount="2"
-            android:padding="5dp"
+            android:padding="10dp"
             android:rowCount="2">
 
             <TextView
