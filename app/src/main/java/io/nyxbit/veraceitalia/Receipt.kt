@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import io.nyxbit.veraceitalia.adapters.ReceiptRecyclerAdapter
 import io.nyxbit.veraceitalia.databinding.FragmentReceiptBinding
 import io.nyxbit.veraceitalia.viewmodels.CartViewModel
@@ -34,18 +35,22 @@ class Receipt : Fragment() {
         _binding = FragmentReceiptBinding.inflate(inflater,container,false)
 
         receiptAdapter = cartViewModel.list.value?.let { ReceiptRecyclerAdapter(it){} }!!
-        val taxRate = 0.008
+        val taxRate = 0.008f
 
-        val subtotal = cartViewModel.subtotal.value ?: 0
+        val subtotal = cartViewModel.subtotal.value ?: 0f
 
         val taxAmount = subtotal * taxRate
         val grandTotal = subtotal + taxAmount
-        _binding.subtotal.text = subtotal.toString()
-        _binding.tax.text = String.format("%.2f", taxAmount)
-        _binding.grandTotal.text = String.format("%.2f", grandTotal)
+        _binding.subtotal.text = String.format("£ %.2f", subtotal)
+        _binding.tax.text = String.format("£ %.2f", taxAmount)
+        _binding.grandTotal.text = String.format("£ %.2f", grandTotal)
 
 
         _binding.receiptList.adapter = receiptAdapter
+
+        _binding.newOrder.setOnClickListener{
+            findNavController().popBackStack(R.id.home2, false)
+        }
         return _binding.root
     }
 }

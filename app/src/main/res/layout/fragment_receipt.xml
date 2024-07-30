@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".Receipt">
 
     <TextView
@@ -108,18 +109,29 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout"
         tools:layout_editor_absoluteX="20dp"
         tools:listitem="@layout/recycler_receipt_item" />
 
+
+    <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="50dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/divider"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout" />
+
+
     <LinearLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="20dp"
+        android:gravity="center_horizontal"
+        android:paddingVertical="30dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <GridLayout
@@ -133,7 +145,8 @@
                 android:layout_column="0"
                 android:fontFamily="@font/cinzel_regular"
                 android:text="Subtotal: "
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -142,7 +155,9 @@
                 android:layout_column="0"
                 android:fontFamily="@font/cinzel_regular"
                 android:text="Tax: "
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,7 +165,8 @@
                 android:layout_column="0"
                 android:fontFamily="@font/cinzel_regular"
                 android:text="Total"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/subtotal"
@@ -161,7 +177,8 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/cinzel_regular"
                 android:text="999"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tax"
@@ -172,7 +189,9 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/cinzel_regular"
                 android:text="999"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/grand_total"
                 android:layout_width="wrap_content"
@@ -182,8 +201,27 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/cinzel_regular"
                 android:text="999"
-                android:textColor="@color/primary_text" />
+                android:textColor="@color/primary_text"
+                android:textSize="18sp" />
         </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thank you for dining with us!"
+            android:textColor="@color/primary_text"
+            android:paddingVertical="25dp"
+            android:fontFamily="@font/cinzel_regular"/>
+
+        <Button
+            android:id="@+id/new_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Home"
+            android:background="@color/primary_button"
+            android:textColor="@color/white"
+            android:paddingHorizontal="20dp"
+          />
 
 
     </LinearLayout>

@@ -48,7 +48,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@color/white"
+            android:background="#D5D0C6"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cinzel_regular"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="My Cart"
                 android:textColor="@color/primary_text"
                 android:textSize="30sp"

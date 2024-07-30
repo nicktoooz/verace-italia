@@ -10,7 +10,7 @@ class ItemViewHolder(private var _binding: RecyclerItemBinding) : RecyclerView.V
 
         val currentPrice = data.price
         _binding.tvName.text = data.name
-        _binding.tvPrice.text = "₱${data.price}"
+        _binding.tvPrice.text = String.format("£ %.2f", data.price)
         _binding.counter.text = data.quantity.toString()
         _binding.imageView.setImageResource(data.image)
 

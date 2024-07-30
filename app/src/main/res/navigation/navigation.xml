@@ -27,5 +27,11 @@
         android:id="@+id/receipt2"
         android:name="io.nyxbit.veraceitalia.Receipt"
         android:label="fragment_receipt"
-        tools:layout="@layout/fragment_receipt" />
+        tools:layout="@layout/fragment_receipt" >
+        <action
+            android:id="@+id/action_receipt2_to_home2"
+            app:popUpTo="@id/home2"
+            app:popUpToInclusive="false"
+            app:destination="@id/home2" />
+    </fragment>
 </navigation>

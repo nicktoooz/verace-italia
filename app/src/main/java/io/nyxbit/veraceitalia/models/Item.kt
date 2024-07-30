@@ -4,9 +4,9 @@ import io.nyxbit.veraceitalia.R
 
 class Item (
     var name: String? = null,
-    var price: Int = 0,
+    var price: Float = 0f,
     var quantity: Int = 0,
-    var subtotal: Int = 0,
+    var subtotal: Float = 0f,
     var image: Int = R.mipmap.ic_launcher
 ) {
     fun getBackgroundResource(): Int {

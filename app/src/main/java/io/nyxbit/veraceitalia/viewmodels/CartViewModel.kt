@@ -8,8 +8,8 @@ class CartViewModel : ViewModel() {
     private val _list = MutableLiveData<MutableList<Item>>().apply { value = mutableListOf() }
     val list: LiveData<MutableList<Item>> get() = _list
 
-    private val _subtotal = MutableLiveData<Int>().apply { value = 0 }
-    val subtotal: LiveData<Int> get() = _subtotal
+    private val _subtotal = MutableLiveData<Float>().apply { value = 0f }
+    val subtotal: LiveData<Float> get() = _subtotal
 
     fun add(item: Item) {
         val items = _list.value ?: mutableListOf()
@@ -28,7 +28,7 @@ class CartViewModel : ViewModel() {
         val items = _list.value ?: mutableListOf()
         val index = items.indexOfFirst { it.name == item.name }
         if (index >= 0) {
-            items[index].quantity = 0 // Reset quantity to 0 before removing
+            items[index].quantity = 0
             items.removeAt(index)
             _list.value = items
             updateSubtotal()
@@ -37,7 +37,7 @@ class CartViewModel : ViewModel() {
 
     fun clear() {
         _list.value = mutableListOf()
-        _subtotal.value = 0
+        _subtotal.value = 0f
     }
 
     fun replace(oldItem: Item, newItem: Item) {
@@ -55,6 +55,9 @@ class CartViewModel : ViewModel() {
     }
 
     private fun updateSubtotal() {
-        _subtotal.value = _list.value?.sumOf { it.subtotal } ?: 0
+        val items = _list.value ?: mutableListOf()
+        val subtotal = items.fold(0f) { acc, item -> acc + item.subtotal }
+        _subtotal.value = subtotal
     }
+
 }

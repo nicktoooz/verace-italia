@@ -10,7 +10,7 @@ class CartViewHolder (private var _binding : RecyclerCartItemBinding): RecyclerV
     fun bind(data:Item, onDataClick:(data:Item)-> Unit){
         _binding.tvName.text = data.name
         _binding.tvQuantity.text = data.quantity.toString()
-        _binding.tvTotalPrice.text = "₱${data.subtotal}"
+        _binding.tvTotalPrice.text = String.format("£ %.2f", data.subtotal)
         itemView.setOnClickListener{ onDataClick.invoke(data)}
     }
 
