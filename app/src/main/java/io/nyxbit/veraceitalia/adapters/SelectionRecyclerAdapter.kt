@@ -1,25 +1,27 @@
+package io.nyxbit.veraceitalia.adapters
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.nyxbit.veraceitalia.databinding.RecyclerCartItemBinding
+import io.nyxbit.veraceitalia.databinding.RecyclerSelectionItemBinding
 import io.nyxbit.veraceitalia.models.Item
-import io.nyxbit.veraceitalia.viewholders.CartViewHolder
+import io.nyxbit.veraceitalia.viewholders.SelectionViewHolder
 
 
-class CartRecyclerAdapter(
-    val dataset: MutableList<Item> = mutableListOf(),
+class SelectionRecyclerAdapter(
+    private val dataset: MutableList<Item> = mutableListOf(),
     private val onDataClick: (data: Item) -> Unit,
-) : RecyclerView.Adapter<CartViewHolder>() {
+) : RecyclerView.Adapter<SelectionViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        return CartViewHolder(RecyclerCartItemBinding.inflate(LayoutInflater.from(parent.context)))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectionViewHolder {
+        return SelectionViewHolder(RecyclerSelectionItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun getItemCount(): Int {
         return dataset.size
     }
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SelectionViewHolder, position: Int) {
         holder.bind(dataset[position], onDataClick)
     }
 
@@ -34,5 +36,8 @@ class CartRecyclerAdapter(
             dataset.removeAt(position)
             notifyItemRemoved(position)
         }
+    }
+    fun getDataset(): MutableList<Item> {
+        return dataset
     }
 }

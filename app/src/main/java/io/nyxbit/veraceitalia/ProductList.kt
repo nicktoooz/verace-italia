@@ -1,13 +1,12 @@
 package io.nyxbit.veraceitalia
 
-import CartRecyclerAdapter
+import io.nyxbit.veraceitalia.adapters.SelectionRecyclerAdapter
 import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
@@ -21,23 +20,23 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.nyxbit.veraceitalia.adapters.ItemRecyclerAdapter
 import io.nyxbit.veraceitalia.databinding.FragmentProductListBinding
 import io.nyxbit.veraceitalia.models.Item
-import io.nyxbit.veraceitalia.viewmodels.CartViewModel
+import io.nyxbit.veraceitalia.viewmodels.SelectionViewModel
+import java.util.Locale
 import kotlin.math.abs
-import kotlin.random.Random
 
 class ProductList : Fragment() {
 
     private lateinit var _binding: FragmentProductListBinding
     private lateinit var listAdapter: ItemRecyclerAdapter
-    private lateinit var cartAdapter: CartRecyclerAdapter
-    private lateinit var cartViewModel: CartViewModel
+    private lateinit var cartAdapter: SelectionRecyclerAdapter
+    private lateinit var selectionViewModel: SelectionViewModel
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<CardView>
     private var dataset = mutableListOf<Item>()
     private var isCollapsed = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
+        selectionViewModel = ViewModelProvider(requireActivity()).get(SelectionViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,12 +60,7 @@ class ProductList : Fragment() {
     ): View {
         _binding = FragmentProductListBinding.inflate(inflater, container, false)
         dataset.clear()
-        cartViewModel.clear()
-
-        setupBottomSheetBehavior()
-        setupRecyclerViewAdapters()
-        setupCartSwipeController()
-        setupObservers()
+        selectionViewModel.clear()
 
         dataset.add(Item(name = "Panna Cotta", price = 9.90f, image = R.drawable.menu_panna_cotta))
         dataset.add(Item(name = "Tiramisu", price = 8.75f, image = R.drawable.menu_tiramisu))
@@ -82,14 +76,20 @@ class ProductList : Fragment() {
         dataset.add(Item(name = "Frittura Mista", price = 20.20f))
         dataset.add(Item(name = "Agnolotti del Plin", price = 14.20f))
 
+        setupBottomSheetBehavior()
+        setupRecyclerViewAdapters()
+        setupCartSwipeController()
+        setupObservers()
+
+
         val randint = (0..<dataset.size).random()
         val temp = dataset[0]
         dataset[0] = dataset[randint]
         dataset[randint] = temp
 
         _binding.next.setOnClickListener {
-            if (cartViewModel.list.value?.isEmpty()!!)
-                Toast.makeText(requireContext(), "Pick some dishes first", Toast.LENGTH_LONG).show()
+            if (selectionViewModel.list.value?.isEmpty()!!)
+                Toast.makeText(requireContext(), "Select some dishes first", Toast.LENGTH_LONG).show()
             else
                 isCollapsed = if (isCollapsed){
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -114,11 +114,19 @@ class ProductList : Fragment() {
     }
 
     private fun setupObservers() {
-        cartViewModel.subtotal.observe(viewLifecycleOwner) {
-            _binding.subtotal.text = if (it > 0) String.format("£ %.2f", it) else "£ ----"
+        selectionViewModel.subtotal.observe(viewLifecycleOwner) {
+            if (it > 0){
+                _binding.rvSelection.visibility = View.VISIBLE
+                _binding.emptySelection.visibility = View.GONE
+
+            }else{
+                _binding.rvSelection.visibility = View.GONE
+                _binding.emptySelection.visibility = View.VISIBLE
+            }
+            _binding.subtotal.text = if (it > 0) String.format(Locale.UK,"£ %.2f", it) else "£ ----"
         }
 
-        cartViewModel.list.observe(viewLifecycleOwner) { items ->
+        selectionViewModel.list.observe(viewLifecycleOwner) { items ->
             cartAdapter.updateItems(items)
             listAdapter.notifyDataSetChanged()
         }
@@ -127,17 +135,17 @@ class ProductList : Fragment() {
     private fun setupRecyclerViewAdapters() {
         listAdapter = ItemRecyclerAdapter(dataset, {}, { item ->
             if (item.quantity > 0) {
-                if (!cartViewModel.exists(item)) {
-                    cartViewModel.add(item)
+                if (!selectionViewModel.exists(item)) {
+                    selectionViewModel.add(item)
                 } else {
-                    cartViewModel.replace(item, item)
+                    selectionViewModel.replace(item, item)
                 }
             } else {
-                cartViewModel.remove(item)
+                selectionViewModel.remove(item)
             }
             listAdapter.notifyDataSetChanged()
         })
-        cartAdapter = CartRecyclerAdapter {}
+        cartAdapter = SelectionRecyclerAdapter {}
         val gridLayoutManager = GridLayoutManager(requireContext(), 2).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -145,7 +153,7 @@ class ProductList : Fragment() {
                 }
             }
         }
-        _binding.rvCart.adapter = cartAdapter
+        _binding.rvSelection.adapter = cartAdapter
         _binding.rvList.adapter = listAdapter
         _binding.rvList.layoutManager = gridLayoutManager
     }
@@ -191,12 +199,12 @@ class ProductList : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val item = cartAdapter.dataset.getOrNull(position)
+                    val item = cartAdapter.getDataset().getOrNull(position)
                     item?.let { it ->
-                        cartViewModel.remove(it)
-                        val index = listAdapter.dataset.indexOfFirst { it.name == item.name }
+                        selectionViewModel.remove(it)
+                        val index = listAdapter.getDataset().indexOfFirst { it.name == item.name }
                         if (index >= 0) {
-                            val listItem = listAdapter.dataset[index]
+                            val listItem = listAdapter.getDataset()[index]
                             listItem.quantity = 0
                             listAdapter.notifyItemChanged(index)
                         }
@@ -234,6 +242,6 @@ class ProductList : Fragment() {
                 viewHolder.itemView.alpha = 1.0f
             }
         })
-        controller.attachToRecyclerView(_binding.rvCart)
+        controller.attachToRecyclerView(_binding.rvSelection)
     }
 }

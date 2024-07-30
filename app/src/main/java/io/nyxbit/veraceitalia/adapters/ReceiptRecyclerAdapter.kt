@@ -10,7 +10,7 @@ import io.nyxbit.veraceitalia.viewholders.ItemViewHolder
 import io.nyxbit.veraceitalia.viewholders.ReceiptViewHolder
 
 class ReceiptRecyclerAdapter(
-    val dataset: MutableList<Item> = mutableListOf(),
+    private val dataset: MutableList<Item> = mutableListOf(),
     private val onDataClick: (data: Item) -> Unit,
 
     ) : RecyclerView.Adapter<ReceiptViewHolder>() {
@@ -23,4 +23,5 @@ class ReceiptRecyclerAdapter(
     override fun onBindViewHolder(holder: ReceiptViewHolder, position: Int) {
         holder.bind(dataset[position], onDataClick)
     }
+
 }

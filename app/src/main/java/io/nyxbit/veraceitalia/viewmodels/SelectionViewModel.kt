@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.nyxbit.veraceitalia.models.Item
-class CartViewModel : ViewModel() {
+class SelectionViewModel : ViewModel() {
     private val _list = MutableLiveData<MutableList<Item>>().apply { value = mutableListOf() }
     val list: LiveData<MutableList<Item>> get() = _list
 

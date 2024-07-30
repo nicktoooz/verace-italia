@@ -1,16 +1,18 @@
 package io.nyxbit.veraceitalia.viewholders
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import io.nyxbit.veraceitalia.databinding.RecyclerItemBinding
 import io.nyxbit.veraceitalia.models.Item
+import java.util.Locale
 
 class ItemViewHolder(private var _binding: RecyclerItemBinding) : RecyclerView.ViewHolder(_binding.root) {
     fun bind(data: Item, onDataClick: (data: Item) -> Unit, onQuantityChange: (data: Item) -> Unit) {
 
         val currentPrice = data.price
         _binding.tvName.text = data.name
-        _binding.tvPrice.text = String.format("£ %.2f", data.price)
+        _binding.tvPrice.text = String.format(Locale.UK,"£ %.2f", data.price)
         _binding.counter.text = data.quantity.toString()
         _binding.imageView.setImageResource(data.image)
 
