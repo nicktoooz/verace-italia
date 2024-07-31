@@ -10,19 +10,15 @@ import io.nyxbit.veraceitalia.viewholders.SelectionViewHolder
 
 class SelectionRecyclerAdapter(
     private val dataset: MutableList<Item> = mutableListOf(),
-    private val onDataClick: (data: Item) -> Unit,
 ) : RecyclerView.Adapter<SelectionViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectionViewHolder {
         return SelectionViewHolder(RecyclerSelectionItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun getItemCount(): Int {
-        return dataset.size
-    }
+    override fun getItemCount(): Int = dataset.size
 
     override fun onBindViewHolder(holder: SelectionViewHolder, position: Int) {
-        holder.bind(dataset[position], onDataClick)
+        holder.bind(dataset[position])
     }
 
     fun updateItems(newItems: List<Item>) {
@@ -30,14 +26,5 @@ class SelectionRecyclerAdapter(
         dataset.addAll(newItems)
         notifyDataSetChanged()
     }
-
-    fun removeItem(position: Int) {
-        if (position >= 0 && position < dataset.size) {
-            dataset.removeAt(position)
-            notifyItemRemoved(position)
-        }
-    }
-    fun getDataset(): MutableList<Item> {
-        return dataset
-    }
+    fun getDataset(): MutableList<Item> = dataset
 }

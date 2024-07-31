@@ -2,11 +2,11 @@ package io.nyxbit.veraceitalia
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import io.nyxbit.veraceitalia.adapters.ReceiptRecyclerAdapter
@@ -30,7 +30,8 @@ class Receipt : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {}
             })
@@ -38,8 +39,7 @@ class Receipt : Fragment() {
 
     @SuppressLint("DefaultLocale", "SetTextI18n")
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentReceiptBinding.inflate(inflater, container, false)
 
@@ -51,23 +51,22 @@ class Receipt : Fragment() {
         val currentTime = timeFormat.format(Date())
         _binding.time.text = currentTime
 
-        receiptAdapter = selectionViewModel.list.value?.let { ReceiptRecyclerAdapter(it) {} }!!
+        receiptAdapter = selectionViewModel.list.value?.let { ReceiptRecyclerAdapter(it) }!!
         val taxRate = 0.008f
 
         val subtotal = selectionViewModel.subtotal.value ?: 0f
-
         val taxAmount = subtotal * taxRate
         val grandTotal = subtotal + taxAmount
         _binding.subtotal.text = String.format("£ %.2f", subtotal)
         _binding.tax.text = String.format("£ %.2f", taxAmount)
         _binding.grandTotal.text = String.format("£ %.2f", grandTotal)
 
-
         _binding.receiptList.adapter = receiptAdapter
 
         _binding.newOrder.setOnClickListener {
             findNavController().popBackStack(R.id.home2, false)
         }
+
         return _binding.root
     }
 }

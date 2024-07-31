@@ -1,10 +1,10 @@
 package io.nyxbit.veraceitalia.models
 
+import android.graphics.Color
 import io.nyxbit.veraceitalia.R
 
 class Item (
     var name: String? = null,
-    var description: String? = null,
     var price: Float = 0f,
     var quantity: Int = 0,
     var subtotal: Float = 0f,

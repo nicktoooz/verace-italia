@@ -8,12 +8,10 @@ import io.nyxbit.veraceitalia.models.Item
 import java.util.Locale
 
 class ReceiptViewHolder (private var _binding : RecyclerReceiptItemBinding): RecyclerView.ViewHolder(_binding.root) {
-
-    fun bind(data:Item, onDataClick:(data:Item)-> Unit){
+    fun bind(data:Item){
         _binding.tvName.text = data.name
         _binding.tvPrice.text = String.format(Locale.UK,"£ %.2f", data.subtotal)
         _binding.tvQuantity.text = data.quantity.toString()
-        itemView.setOnClickListener{ onDataClick.invoke(data)}
     }
 
 }

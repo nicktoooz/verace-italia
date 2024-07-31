@@ -1,9 +1,8 @@
 package io.nyxbit.veraceitalia
 
-import io.nyxbit.veraceitalia.adapters.SelectionRecyclerAdapter
 import android.graphics.Canvas
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.nyxbit.veraceitalia.adapters.ItemRecyclerAdapter
+import io.nyxbit.veraceitalia.adapters.SelectionRecyclerAdapter
 import io.nyxbit.veraceitalia.databinding.FragmentProductListBinding
 import io.nyxbit.veraceitalia.models.Item
+import io.nyxbit.veraceitalia.utils.AndroidUtils
 import io.nyxbit.veraceitalia.viewmodels.SelectionViewModel
 import java.util.Locale
 import kotlin.math.abs
@@ -36,7 +37,8 @@ class ProductList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        selectionViewModel = ViewModelProvider(requireActivity()).get(SelectionViewModel::class.java)
+        selectionViewModel =
+            ViewModelProvider(requireActivity()).get(SelectionViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,12 +71,12 @@ class ProductList : Fragment() {
         dataset.add(Item(name = "Margherita Pizza", price = 14.80f, image = R.drawable.menu_margherita_pizza))
         dataset.add(Item(name = "Osso Buco", price = 22.40f, image = R.drawable.menu_osso_buco))
         dataset.add(Item(name = "Bruschetta", price = 10.30f, image = R.drawable.menu_bruschetta))
-        dataset.add(Item(name = "Pasta ’Ncasciata", price = 15.99f))
-        dataset.add(Item(name = "Lasagna", price = 19.60f))
-        dataset.add(Item(name = "Risotto al Funghi", price = 17.75f))
-        dataset.add(Item(name = "Gnocchi", price = 16.45f))
-        dataset.add(Item(name = "Frittura Mista", price = 20.20f))
-        dataset.add(Item(name = "Agnolotti del Plin", price = 14.20f))
+        dataset.add(Item(name = "Pasta ’Ncasciata", price = 15.99f, image = R.drawable.menu_pasta_ncasciata))
+        dataset.add(Item(name = "Lasagna", price = 19.60f, image = R.drawable.menu_lasagna))
+        dataset.add(Item(name = "Risotto al Funghi", price = 17.75f, image = R.drawable.menu_risotto_al_funghi))
+        dataset.add(Item(name = "Gnocchi", price = 16.45f, image = R.drawable.menu_gnocchi))
+        dataset.add(Item(name = "Frittura Mista", price = 20.20f, image = R.drawable.menu_frittura_mista))
+        dataset.add(Item(name = "Agnolotti del Plin", price = 14.20f, image = R.drawable.menu_agnolotti_del_plin))
 
         setupBottomSheetBehavior()
         setupRecyclerViewAdapters()
@@ -88,16 +90,16 @@ class ProductList : Fragment() {
         dataset[randint] = temp
 
         _binding.next.setOnClickListener {
-            if (selectionViewModel.list.value?.isEmpty()!!)
-                Toast.makeText(requireContext(), "Select some dishes first", Toast.LENGTH_LONG).show()
-            else
-                isCollapsed = if (isCollapsed){
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    false
-                }else {
-                    findNavController().navigate(R.id.action_productList_to_receipt2)
-                    true
-                }
+            if (selectionViewModel.list.value?.isEmpty()!!) Toast.makeText(
+                requireContext(), "Select some dishes first", Toast.LENGTH_LONG
+            ).show()
+            else isCollapsed = if (isCollapsed) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                false
+            } else {
+                findNavController().navigate(R.id.action_productList_to_receipt2)
+                true
+            }
         }
 
         _binding.button.setOnClickListener {
@@ -115,15 +117,16 @@ class ProductList : Fragment() {
 
     private fun setupObservers() {
         selectionViewModel.subtotal.observe(viewLifecycleOwner) {
-            if (it > 0){
+            if (it > 0) {
                 _binding.rvSelection.visibility = View.VISIBLE
                 _binding.emptySelection.visibility = View.GONE
 
-            }else{
+            } else {
                 _binding.rvSelection.visibility = View.GONE
                 _binding.emptySelection.visibility = View.VISIBLE
             }
-            _binding.subtotal.text = if (it > 0) String.format(Locale.UK,"£ %.2f", it) else "£ ----"
+            _binding.subtotal.text =
+                if (it > 0) String.format(Locale.UK, "£ %.2f", it) else "£ ----"
         }
 
         selectionViewModel.list.observe(viewLifecycleOwner) { items ->
@@ -133,7 +136,7 @@ class ProductList : Fragment() {
     }
 
     private fun setupRecyclerViewAdapters() {
-        listAdapter = ItemRecyclerAdapter(dataset, {}, { item ->
+        listAdapter = ItemRecyclerAdapter(requireContext(), dataset) { item ->
             if (item.quantity > 0) {
                 if (!selectionViewModel.exists(item)) {
                     selectionViewModel.add(item)
@@ -144,8 +147,10 @@ class ProductList : Fragment() {
                 selectionViewModel.remove(item)
             }
             listAdapter.notifyDataSetChanged()
-        })
-        cartAdapter = SelectionRecyclerAdapter {}
+        }
+
+
+        cartAdapter = SelectionRecyclerAdapter()
         val gridLayoutManager = GridLayoutManager(requireContext(), 2).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -153,6 +158,7 @@ class ProductList : Fragment() {
                 }
             }
         }
+
         _binding.rvSelection.adapter = cartAdapter
         _binding.rvList.adapter = listAdapter
         _binding.rvList.layoutManager = gridLayoutManager
@@ -179,6 +185,8 @@ class ProductList : Fragment() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 _binding.stateIcon.rotation = slideOffset * 180
+                _binding.mainLayout.foreground =
+                    ColorDrawable(AndroidUtils.getColorWithAlpha((slideOffset * 0.50 * 255).toInt()))
             }
         })
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -224,19 +232,12 @@ class ProductList : Fragment() {
                 val alpha = 1.0f - (abs(dX) / recyclerView.width) * 1.7f
                 viewHolder.itemView.alpha = alpha.coerceAtLeast(0.0f)
                 super.onChildDraw(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
+                    c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
                 )
             }
 
             override fun clearView(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
+                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder
             ) {
                 super.clearView(recyclerView, viewHolder)
                 viewHolder.itemView.alpha = 1.0f
